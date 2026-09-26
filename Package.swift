@@ -18,13 +18,25 @@ let package = Package(
         // GRDB（数据池/资产库 SQLite）属 App 侧数据层，经 project.yml 接入，不进 VehicleKit
     ],
     targets: [
+        // libxlsxwriter C 互操作隔离层（AGENTS.md：C 接口封装集中管理，不散写）。
+        // 依赖 Homebrew libxlsxwriter（brew install libxlsxwriter），CI 同步安装。
+        .systemLibrary(
+            name: "XlsxWriterShim",
+            path: "VehicleKit/Support/XlsxWriterShim",
+            pkgConfig: "xlsxwriter"
+        ),
         .target(
             name: "VehicleKit",
             dependencies: [
                 .product(name: "CoreXLSX", package: "CoreXLSX"),
                 .product(name: "ZIPFoundation", package: "ZIPFoundation"),
+                "XlsxWriterShim",
             ],
-            path: "VehicleKit/Sources"
+            path: "VehicleKit/Sources",
+            resources: [
+                // 属性枚举值字典（与旧版 src/assets/attribute_values.txt 同源）
+                .copy("Resources")
+            ]
         ),
         .testTarget(
             name: "VehicleKitTests",

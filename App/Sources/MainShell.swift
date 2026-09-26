@@ -1,11 +1,16 @@
 import SwiftUI
 import VehicleKit
 
-/// 主窗口壳 —— M1：工作台（双文件版本对比）；后续里程碑接入更多 Feature
+/// 主窗口壳 —— M2：工作台（版本对比）+ 智能填报双标签页
 struct MainShell: View {
     var body: some View {
-        WorkbenchView()
-            .frame(minWidth: 1000, minHeight: 660)
+        TabView {
+            WorkbenchView()
+                .tabItem { Label("版本对比", systemImage: "arrow.left.arrow.right.square") }
+            SmartFillView()
+                .tabItem { Label("智能填报", systemImage: "text.badge.checkmark") }
+        }
+        .frame(minWidth: 1040, minHeight: 680)
     }
 }
 

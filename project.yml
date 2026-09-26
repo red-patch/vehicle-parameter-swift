@@ -55,6 +55,11 @@ targets:
         CODE_SIGN_STYLE: Automatic
         DEVELOPMENT_TEAM: ""
         COMBINE_HIDPI_IMAGES: "YES"
+        # Apple Silicon 优先（brew libxlsxwriter 仅 arm64）；M5 分发前如需
+        # Universal Binary，改用 SPM 源码编译 libxlsxwriter 再放开 ARCHS
+        ARCHS: arm64
+        ONLY_ACTIVE_ARCH: "YES"
+        LIBRARY_SEARCH_PATHS: "$(inherited) /opt/homebrew/opt/libxlsxwriter/lib"
 
 schemes:
   VehicleParameter:

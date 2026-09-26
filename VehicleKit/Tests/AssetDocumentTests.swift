@@ -48,9 +48,11 @@ final class AssetDocumentTests: XCTestCase {
     func testEncodedIntegerValueHasNoDecimalDrift() throws {
         let doc = try AssetDocument.decode(from: Data(Self.legacySample.utf8))
         let text = String(data: try doc.encoded(), encoding: .utf8)!
-        // Xcode 16 的 JSONEncoder 会在冒号前后加空格，按空白无关方式断言数字形态
+        // 新版 Foundation JSONEncoder：冒号带空格且键序按字典序随机化（进程相关），
+        // 故按空白无关方式断言数字形态，且不能假设逗号结尾
         let normalized = text.components(separatedBy: .whitespacesAndNewlines).joined()
-        XCTAssertTrue(normalized.contains(#""value":1780,"#), "整数漂移为 1780.0 将破坏旧版读回：\(text)")
+        XCTAssertTrue(normalized.contains(#""value":1780"#), "整数漂移为 1780.0 将破坏旧版读回：\(text)")
+        XCTAssertFalse(normalized.contains(#""value":1780.0"#))
     }
 
     func testEncodedFormatIsIndentedLikeLegacyWriter() throws {

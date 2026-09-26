@@ -1,0 +1,5 @@
+module XlsxWriterShim [system] {
+    umbrella "/opt/homebrew/opt/libxlsxwriter/include/xlsxwriter"
+    link "xlsxwriter"
+    export *
+}

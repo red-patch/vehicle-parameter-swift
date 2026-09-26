@@ -1,0 +1,141 @@
+{
+ "requirementNames": [
+  "整备质量",
+  "外形尺寸（长）",
+  "最高车速",
+  "轴距",
+  "轮胎规格",
+  "轮胎数",
+  "乘员数",
+  "防抱死系统",
+  "电机功率",
+  "额定功率",
+  "电池电量",
+  "公告号",
+  "续驶里程",
+  "充电时间",
+  "接近角",
+  "离去角",
+  "整车长",
+  "车宽",
+  "foobar不存在"
+ ],
+ "libraryProductName": "大拿V1 长轴高顶 货运版 宁德时代 50kWh",
+ "librarySize": 326,
+ "items": [
+  {
+   "requirementName": "整备质量",
+   "matchedName": "整备质量（kg）",
+   "matchedValue": "1750，1795",
+   "confidence": 0.95
+  },
+  {
+   "requirementName": "外形尺寸（长）",
+   "matchedName": null,
+   "matchedValue": null,
+   "confidence": 0
+  },
+  {
+   "requirementName": "最高车速",
+   "matchedName": "最高车速（km/h）",
+   "matchedValue": "100",
+   "confidence": 0.95
+  },
+  {
+   "requirementName": "轴距",
+   "matchedName": "轴距（mm）",
+   "matchedValue": "3450",
+   "confidence": 0.95
+  },
+  {
+   "requirementName": "轮胎规格",
+   "matchedName": "轮胎型号",
+   "matchedValue": "195/70 R15LT",
+   "confidence": 0.9
+  },
+  {
+   "requirementName": "轮胎数",
+   "matchedName": "轮胎数量",
+   "matchedValue": "4",
+   "confidence": 0.9
+  },
+  {
+   "requirementName": "乘员数",
+   "matchedName": "乘员数",
+   "matchedValue": "2或3",
+   "confidence": 1
+  },
+  {
+   "requirementName": "防抱死系统",
+   "matchedName": "ABS",
+   "matchedValue": "标配",
+   "confidence": 0.9
+  },
+  {
+   "requirementName": "电机功率",
+   "matchedName": "电机额定功率（kW）",
+   "matchedValue": "50",
+   "confidence": 0.9
+  },
+  {
+   "requirementName": "额定功率",
+   "matchedName": "电机额定功率（kW）",
+   "matchedValue": "50",
+   "confidence": 0.9
+  },
+  {
+   "requirementName": "电池电量",
+   "matchedName": "动力电池包电量（kWh）",
+   "matchedValue": "50.23",
+   "confidence": 0.9
+  },
+  {
+   "requirementName": "公告号",
+   "matchedName": "整车公告号",
+   "matchedValue": "SH5033XXYU6BEV-Z50",
+   "confidence": 1
+  },
+  {
+   "requirementName": "续驶里程",
+   "matchedName": "公告续航里程（km）",
+   "matchedValue": "330",
+   "confidence": 0.75
+  },
+  {
+   "requirementName": "充电时间",
+   "matchedName": "直流充电时间（常温,SOC:20%-100%）（h）",
+   "matchedValue": "≤1.3",
+   "confidence": 1
+  },
+  {
+   "requirementName": "接近角",
+   "matchedName": "接近角（°）/离去角（°）",
+   "matchedValue": "26；19",
+   "confidence": 1
+  },
+  {
+   "requirementName": "离去角",
+   "matchedName": "接近角（°）/离去角（°）",
+   "matchedValue": "26；19",
+   "confidence": 1
+  },
+  {
+   "requirementName": "整车长",
+   "matchedName": "外廓长度（mm）",
+   "matchedValue": "5250",
+   "confidence": 0.9
+  },
+  {
+   "requirementName": "车宽",
+   "matchedName": "外廓宽度（mm）",
+   "matchedValue": "1870",
+   "confidence": 0.9
+  },
+  {
+   "requirementName": "foobar不存在",
+   "matchedName": null,
+   "matchedValue": null,
+   "confidence": 0
+  }
+ ]
+}
