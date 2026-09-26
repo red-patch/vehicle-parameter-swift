@@ -95,6 +95,12 @@ public final class EnumDictionary: @unchecked Sendable {
         !enumValues(for: attributeName).isEmpty
     }
 
+    /// 字段名是否在枚举字典中（标准化匹配：忽略大小写、全角半角括号）——旧版 isKnownAttributeName
+    public func isKnownAttributeName(_ name: String) -> Bool {
+        if cache[name] != nil { return true }
+        return normalizedNameMap[Self.normalizeName(name)] != nil
+    }
+
     public var allAttributeNames: [String] { Array(cache.keys) }
     public var count: Int { cache.count }
 

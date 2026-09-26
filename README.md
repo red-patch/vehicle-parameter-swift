@@ -1,6 +1,6 @@
 # vehicle-parameter-swift
 
-> 版本：v0.4（M3 资产库）· 2026-09-26
+> 版本：v0.5（M4 数据工具）· 2026-09-26
 
 车辆整车参数配置与管理工具的 **macOS 原生重写版**。旧版（[/Users/ethan/code/软件开发/vehicle-parameter](../vehicle-parameter)，Tauri 2 + React 19）继续维护并服务 Windows 用户；本项目仅面向 macOS，目标是把性能与交互体验做到原生级极致。
 
@@ -48,7 +48,16 @@
 
 ## 当前状态
 
-**M3 多车型数据池 + 资产库完成并通过全量验收（2026-09-26）。M0-M2 已于同日验收。**
+**M4 数据净化 / 属性去重 / 公告查询完成并通过全量验收（2026-09-26）。M0-M3 已于同日验收。PRD V1.0-V4.4 功能清单已全部落地。**
+
+### M4 交付
+
+- **VehicleKit 域层**：
+  - `Purifier`：名称标准性（字典标准化匹配，空名=非标准）、名称推荐（Fuse 0.6 搜标准字段前3，空名跳过）、枚举不匹配（大小写不敏感——与 SmartFiller 的精确比较不同，旧版两模块语义如此）、异常计数；`FieldGroups`（custom_fields.json 热替换，groups/systemRequired+qualityCheck 双形态）
+  - `AttributeDedup`：属性池按「属性名称」去重（首见 required 保留、空名跳过）、CSV 导出（引号转义）、`_去重.csv` 文件名规则
+  - `AnnouncementQuery`：工信部查询 URL（percent-encode）、书签脚本逐字符一致、粘贴导入解析（「其它」字段拆分：分号→点号排除小数点→"序号.key:value"/纯文本两级正则；captureRegex 可选组跳位坑已按组数显式分支）
+- **UI**：数据净化页（车型选择/分组/搜索/字段组/异常快捷过滤、行内编辑、推荐 popover、覆盖或另存资产）、属性去重页（统计卡+表格+CSV 导出）、公告查询页（三步向导：查询→书签→粘贴导入，预览+设为对比新版本+保存资产）；主窗口六标签页
+- **验收测试（72 例全绿）**：净化检测语义、去重 parity（合成属性池样本）、查询 URL、导入拆分（含 3.5L 小数点保护、booklet 逐字符）、坏载荷拒绝
 
 ### M3 交付
 
