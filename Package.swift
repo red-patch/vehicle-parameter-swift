@@ -13,9 +13,11 @@ let package = Package(
         // 自行读取 zip 条目（rels 等）：CoreXLSX 对非标关系类型（WPS/SheetJS 写出的
         // woinfos、sheetMetadata）会解码失败，关系解析必须绕开其严格 SchemaType
         .package(url: "https://github.com/weichsel/ZIPFoundation", from: "0.9.19"),
+        // 数据池/资产库/会话持久化（SQLite）。GRDB 纯 Swift 无 UI 依赖，放入 VehicleKit
+        // 保证数据层全量 XCTest 直测（架构蓝图 §3 schema）
+        .package(url: "https://github.com/groue/GRDB.swift", from: "7.0.0"),
         // 模糊匹配不引 fuse-swift：fuse.js@7.1.0 已逐行为移植进 VehicleKit（FuseSearch.swift），
         // fuse-swift 与 fuse.js 打分语义存在偏差，会破坏 golden 四态计数契约
-        // GRDB（数据池/资产库 SQLite）属 App 侧数据层，经 project.yml 接入，不进 VehicleKit
     ],
     targets: [
         // libxlsxwriter C 互操作隔离层（AGENTS.md：C 接口封装集中管理，不散写）。
@@ -30,6 +32,7 @@ let package = Package(
             dependencies: [
                 .product(name: "CoreXLSX", package: "CoreXLSX"),
                 .product(name: "ZIPFoundation", package: "ZIPFoundation"),
+                .product(name: "GRDB", package: "GRDB.swift"),
                 "XlsxWriterShim",
             ],
             path: "VehicleKit/Sources",

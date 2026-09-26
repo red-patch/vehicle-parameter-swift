@@ -1,6 +1,6 @@
 # vehicle-parameter-swift
 
-> 版本：v0.3（M2 智能填报）· 2026-09-26
+> 版本：v0.4（M3 资产库）· 2026-09-26
 
 车辆整车参数配置与管理工具的 **macOS 原生重写版**。旧版（[/Users/ethan/code/软件开发/vehicle-parameter](../vehicle-parameter)，Tauri 2 + React 19）继续维护并服务 Windows 用户；本项目仅面向 macOS，目标是把性能与交互体验做到原生级极致。
 
@@ -48,7 +48,16 @@
 
 ## 当前状态
 
-**M2 智能填报完成并通过全量验收（2026-09-26）。M0 / M1 已于同日验收。**
+**M3 多车型数据池 + 资产库完成并通过全量验收（2026-09-26）。M0-M2 已于同日验收。**
+
+### M3 交付
+
+- **VehicleKit 域层**：
+  - `VehicleInstance`：车型实例 key 语义（`source::fileName::productName`）逐条对齐旧版 vehicleInstance.ts——解析/构建/排序（文件名 zh-Hans-CN numeric → asset 在 excel 前）/同名去重编号/选择匹配
+  - `AssetStore`：旧版资产目录契约直译——数据文件判定（排除 `_`/`custom_` 前缀）、扫描统计（公告号纯字母数字过滤、车辆型号提取、filled/total）、v1.0 JSON 读写、`_asset_tags.json` 标签映射、`custom_asset_tag_groups.json` 分组配置、重命名同步标签
+  - `AssetDatabase`：GRDB SQLite（架构蓝图 §3 schema：assets/asset_tags/sessions，snake_case 列名映射），扫描 upsert 幂等、标签 diff 写库、删除级联、会话持久化
+- **UI**：资产库功能页（目录挂载记忆、SwiftUI Table 多选、标签侧栏筛选、批量加标签、批量导出 v1.0、重命名/删除/访达显示、后台同步 SQLite）；主窗口升级三标签页
+- **验收测试（61 例全绿）**：实例 key 往返/非法拒绝/同名编号、旧目录挂载（手写旧版格式兼容）、保存-扫描-读回无损（空值不计已填、createdAt 保留、productName 缺省回填与旧版一致）、GRDB 幂等 upsert/标签 diff/级联删除/会话往返
 
 ### M2 交付
 
