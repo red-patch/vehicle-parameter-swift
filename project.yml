@@ -12,9 +12,9 @@ options:
 packages:
   VehicleKit:
     path: .
-  GRDB:
-    url: https://github.com/groue/GRDB.swift
-    from: 7.0.0
+  Sparkle:
+    url: https://github.com/sparkle-project/Sparkle
+    from: 2.6.0
 
 settings:
   base:
@@ -35,18 +35,23 @@ targets:
     dependencies:
       - package: VehicleKit
         product: VehicleKit
-      - package: GRDB
+      - package: Sparkle
+        product: Sparkle
     info:
       path: App/Info.plist
       properties:
         CFBundleDisplayName: 车辆参数工具
         CFBundleName: VehicleParameter
-        CFBundleShortVersionString: "0.1.0"
-        CFBundleVersion: "1"
+        CFBundleShortVersionString: "0.5.0"
+        CFBundleVersion: "5"
         LSMinimumSystemVersion: "14.0"
         LSApplicationCategoryType: public.app-category.productivity
         ITSAppUsesNonExemptEncryption: false
         NSPrincipalClass: NSApplication
+        # Sparkle 2 自动更新：M5 发布前填入真实 appcast 与 EdDSA 公钥
+        SUFeedURL: https://red-patch.github.io/vehicle-parameter-swift/appcast.xml
+        SUPublicEDKey: ""
+        SUEnableAutomaticChecks: false
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.vehicle.parameter.mac

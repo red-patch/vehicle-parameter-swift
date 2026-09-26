@@ -126,8 +126,17 @@ public enum FieldGroups {
               let config = try? JSONDecoder().decode(CustomFieldsConfig.self, from: data) else {
             return defaultGroups
         }
+        // 去重但保持插入序（旧版 JS Set 语义；Swift Set 顺序随机不可用）
         let normalize = { (fields: [String]) in
-            Array(Set(fields.map { $0.trimmingCharacters(in: .whitespaces) }.filter { !$0.isEmpty }))
+            var seen = Set<String>()
+            var result: [String] = []
+            for f in fields {
+                let trimmed = f.trimmingCharacters(in: .whitespaces)
+                guard !trimmed.isEmpty, !seen.contains(trimmed) else { continue }
+                seen.insert(trimmed)
+                result.append(trimmed)
+            }
+            return result
         }
         if let groups = config.groups, !groups.isEmpty {
             return groups

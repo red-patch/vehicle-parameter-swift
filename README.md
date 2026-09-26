@@ -1,6 +1,6 @@
 # vehicle-parameter-swift
 
-> 版本：v0.5（M4 数据工具）· 2026-09-26
+> 版本：v0.5.0（M5 分发就绪）· 2026-09-26
 
 车辆整车参数配置与管理工具的 **macOS 原生重写版**。旧版（[/Users/ethan/code/软件开发/vehicle-parameter](../vehicle-parameter)，Tauri 2 + React 19）继续维护并服务 Windows 用户；本项目仅面向 macOS，目标是把性能与交互体验做到原生级极致。
 
@@ -48,7 +48,19 @@
 
 ## 当前状态
 
-**M4 数据净化 / 属性去重 / 公告查询完成并通过全量验收（2026-09-26）。M0-M3 已于同日验收。PRD V1.0-V4.4 功能清单已全部落地。**
+**M5 打磨与分发完成（2026-09-26），五个里程碑全部交付。性能验收：冷启动 0.27s（目标 <0.5s）· 空闲内存 37.7MB footprint（目标 <40MB）——均达标。**
+
+### M5 交付
+
+- **菜单全快捷键**：功能页切换 Cmd+1~6、打开 Excel Cmd+O、保存资产 Cmd+S、导出报告 ⇧⌘E、查找 ⌘F、检查更新 ⇧⌘U
+- **Sparkle 2**：SPM 接入（binary XCFramework），SUFeedURL/SUPublicEDKey 占位于 Info.plist，检查更新菜单就绪；发布前填真实 appcast 与 EdDSA 公钥
+- **App Intents**：SwitchFeatureIntent（Shortcuts 可切换六功能页）
+- **Quick Look**：应用内 QLPreviewView 浮层预览 xlsx/csv
+- **窗口状态记忆**：侧栏选择持久化（UserDefaults）
+- **原生侧栏导航**：NavigationSplitView 替代 TabView（仅渲染当前页）
+- **DMG 打包**：`scripts/make_dmg.sh`（Release 构建 + hdiutil UDZO，产物 4.1MB）
+- **性能测量**：`scripts/measure_launch.sh`（冷启动 + physical footprint 口径——RSS 会把共享框架页虚高算入 60MB+，验收以 footprint 为准）
+- **发布前待办（需 Apple Developer 账号）**：Developer ID 签名 → notarytool 公证 → Sparkle appcast（sign_update 签名）→ 替换 Info.plist 占位
 
 ### M4 交付
 
