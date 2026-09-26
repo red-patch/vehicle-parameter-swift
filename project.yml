@@ -30,6 +30,7 @@ targets:
     platform: macOS
     sources:
       - path: App/Sources
+      - path: App/Features
       - path: App/ParameterGrid
     dependencies:
       - package: VehicleKit

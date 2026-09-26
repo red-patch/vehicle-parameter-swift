@@ -1,6 +1,6 @@
 # vehicle-parameter-swift
 
-> 版本：v0.1（M0 脚手架）· 2026-09-26
+> 版本：v0.2（M1 版本对比）· 2026-09-26
 
 车辆整车参数配置与管理工具的 **macOS 原生重写版**。旧版（[/Users/ethan/code/软件开发/vehicle-parameter](../vehicle-parameter)，Tauri 2 + React 19）继续维护并服务 Windows 用户；本项目仅面向 macOS，目标是把性能与交互体验做到原生级极致。
 
@@ -48,14 +48,31 @@
 
 ## 当前状态
 
-**M0 完成并通过全量验收（2026-09-26）。**
+**M1 核心域 + 版本对比完成并通过全量验收（2026-09-26）。M0 脚手架已于同日验收。**
 
-- `Package.swift`：VehicleKit（Swift 6 · macOS 14+），CoreXLSX 0.14.x + fuse-swift 1.4.x 已接入
-- `VehicleKit/`：核心模型 `VehicleParameter`（旧版 string|number 双态桥接）与 `AssetDocument`（资产格式 v1.0 兼容读写）+ XCTest
-- `project.yml` → `VehicleParameter.xcodeproj`：App 目标（SwiftUI 空窗口壳）挂本地 VehicleKit 包与 GRDB 7（数据层，M3 启用），签名占位 Automatic
-- CI：`.github/workflows/ci.yml`（swift build/test + xcodegen generate + 免签名 xcodebuild）
-- 验收记录：`xcodegen generate` ✓ · `swift build` ✓ · `swift test` 12/12 ✓ · App 构建+启动运行 ✓（Xcode 16 · Swift 6.1）
-- 已知差异：Xcode 16 JSONEncoder 的漂亮打印与 JSON.stringify 空白/字段序不逐字节一致（语义互通无损）；若 M3 golden 需逐字节对齐再实现专用 writer
+### M1 交付
+
+- **VehicleKit 域层**（旧版直译，语义逐条对齐）：
+  - `ExcelParser`：纵向 / 键值对 / 横向（产品准入导出）三格式自动识别，跨行表头检测、分组 Fill-Down、百分比还原、跨 sheet 单产品合并、诊断信息
+  - `Comparator`：content / miit 双模式四态对比（added / removed / modified / unchanged）
+  - `MatchingEngine`：四级匹配（exact 0 / normalized 0.1 / alias 0.1-0.2 / fuzzy ≤0.3）+ 60 组别名词库（有序）
+  - `FuseSearch`：fuse.js 7.1.0 逐行为移植（UTF-16 索引、UInt32 位掩码、扩展搜索语法、字段范数打分）——fuse-swift 打分语义有偏差，不能用于 golden 契约
+  - `SheetRows`：CoreXLSX + ZIPFoundation + 自研 XMLParser/原始提取，与 SheetJS sheet_to_json 同构（含 CRLF 保留、列跨度收敛）
+- **UI**：Workbench（双文件上传 → 四态对比 → 筛选）+ ParameterGrid（NSTableView 只读、四态着色、视图复用）+ PDF 报告导出（CGContext + CoreText 矢量文字）
+- **Golden 测试**（37 例全绿）：
+  - 解析：14 个真实/合成样本全量参数逐项一致 + SHA256 摘要
+  - 对比：3 对文件 × 2 模式四态计数与全量清单逐项一致（ditie +0/-0/~5/=339 等）
+  - Fuse：38 组查询分数级对齐（索引 + 分数，1e-9 精度）
+  - 性能：demo1（7 sheet / 1631 参数 / 117KB）解析 0.14s < 1s 预算
+
+### 关键实现决策
+
+- CoreXLSX 的 XMLCoder 解码万格级横向 sheet 需 2s+ → worksheet 改用 Foundation XMLParser（17 倍提速）
+- CoreXLSX 的严格 SchemaType 对 WPS/SheetJS 非标关系类型（woinfos、sheetMetadata）解码失败 → 关系解析自研
+- XML 规范化会把共享字符串中的 \r\n 归一为 \n → 共享字符串从 zip 原始 XML 提取（保留 CRLF）
+- golden 基准由旧版真实代码（vite-node 跑 `../vehicle-parameter` 源码）导出，随仓库提交，CI 可全量复验
+
+CI：`.github/workflows/ci.yml`（swift build/test + xcodegen + 免签名 xcodebuild）。
 
 架构蓝图见 [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)，里程碑与验收标准见 [docs/MILESTONES.md](docs/MILESTONES.md)。
 
